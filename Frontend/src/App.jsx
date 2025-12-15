@@ -5,7 +5,7 @@ import NavBar from "./Components/Utility/Nav/NavBar";
 
 function App() {
   return (
-    <div className="w-full items-center h-screen sm:flex justify-center">
+    <div className="w-full items-center h-screen sm:flex border border-black justify-center">
       <Toaster/>
       <div className="w-full sm:w-[60%] md:h-[99vh] md:w-[26%] h-full border border-[#d6d6d6] shadow-xl sm:rounded-3xl">
         <Outlet />
