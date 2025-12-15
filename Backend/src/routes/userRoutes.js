@@ -59,7 +59,10 @@ router.get(
     // Since the cookie is HttpOnly, the frontend can't read it, 
     // but the browser will automatically attach it to all future requests.
     // Just redirect them to your dashboard or home.
-    res.redirect(process.env.CLIENT_URL || "http://localhost:5173"); 
+   const clientURL = process.env.CLIENT_URL || "http://localhost:5173";
+
+    // Redirect with token in the URL query string
+    res.redirect(`${clientURL}?token=${token}`);
   }
 );
 
