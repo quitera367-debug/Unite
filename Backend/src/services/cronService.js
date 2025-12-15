@@ -11,7 +11,7 @@ const EMAIL_PRIVATE_KEY = process.env.EMAIL_PRIVATE_KEY; // NEW: Add this to you
 
 const startDailyPicker = () => {
   // Currently set to run every minute for testing
-  cron.schedule('* * * * *', async () => {
+  cron.schedule('0 0 * * *', async () => {
     console.log('⏰ Running Daily Random Picker...');
 
     try {
@@ -33,7 +33,7 @@ const startDailyPicker = () => {
           const user = await User.findById(selectedUserId);
 
           if (user) {
-            console.log(`Room ${room.uid}: Picked ${user.name} (${user.email})`);
+            // console.log(`Room ${room.uid}: Picked ${user.name} (${user.email})`);
 
             // 3. Update Room in DB
             await Room.updateOne(

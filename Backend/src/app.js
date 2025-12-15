@@ -9,6 +9,7 @@ const roomRoutes = require("./routes/roomRoutes");
 const userRoutes = require("./routes/userRoutes");
 const contentRoutes = require("./routes/contentRoutes");
 const startDailyPicker = require("./services/cronService");
+require("./config/passport");
 
 const app = express();
 app.set('trust proxy', 1);

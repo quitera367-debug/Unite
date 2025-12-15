@@ -13,6 +13,8 @@ const PublicRouter = () => {
      toast.dismiss();
    return <Navigate to="/list" replace />;
   } else {
+     toast.dismiss();
+
     return <><Outlet/></>;
   }
 };

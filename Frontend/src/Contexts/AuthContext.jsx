@@ -70,6 +70,12 @@ export const AuthProvider = ({ children }) => {
       toast.error("Server error");
     }
   };
+    const handleGoogleLogin =() => {
+    // 1. Redirect user to your BACKEND Google route
+    // Ensure this URL matches your server's address
+    // If you are on Render, use: "https://your-api.onrender.com/api/users/google"
+    window.open("https://unite-hmwc.onrender.com/api/users/google", "_self");
+  }
 
   // profile
 
@@ -114,6 +120,7 @@ export const AuthProvider = ({ children }) => {
         UserProfile,
         EditProfile,
         loading,setLoading,
+        handleGoogleLogin,
       }}
     >
       {children}

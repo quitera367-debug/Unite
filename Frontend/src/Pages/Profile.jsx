@@ -6,6 +6,8 @@ import { CiLogout } from "react-icons/ci";
 
 function Profile() {
   const { LogoutUser,profileData ,UserProfile} = useAuth();
+  console.log(profileData?.profilePhoto);
+  
 
   
   return (

@@ -1,8 +1,9 @@
 const express = require("express");
 const { registerUser, loginUser, getUserProfile, updateUserProfile, requestReset, resetPassword, logoutUser, sentOtp} = require("../controllers/userController");
-const { protect } = require("../middlewares/authMiddleware"); // middleware to protect routes
+const { protect } = require("../middlewares/authMiddleware");
 const upload = require("../middlewares/uploadMiddleware");
-
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
@@ -23,5 +24,43 @@ router.patch("/reset-password", resetPassword);//done
 // User profile (protected route)
 router.get("/me", protect, getUserProfile);//done
 router.put("/me", protect, upload.single("profile"), updateUserProfile);//done
+
+// 1. Trigger Google Login
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+// 2. Handle Callback & Set Cookie
+router.get(
+  "/google/callback",
+  // 'session: false' is crucial because we use JWT, not Express Sessions
+  passport.authenticate("google", { session: false, failureRedirect: "/login" }),
+  (req, res) => {
+    const user = req.user;
+
+    // A. Generate Token
+    const token = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_SECRET
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true, // Required for 'sameSite: "none"'
+      sameSite: "none",
+    });
+
+    // C. Redirect to Frontend
+    // Since the cookie is HttpOnly, the frontend can't read it, 
+    // but the browser will automatically attach it to all future requests.
+    // Just redirect them to your dashboard or home.
+    res.redirect(process.env.CLIENT_URL || "http://localhost:5173"); 
+  }
+);
 
 module.exports = router;
