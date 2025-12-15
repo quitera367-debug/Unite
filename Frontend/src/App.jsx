@@ -10,7 +10,7 @@ function App() {
       <div className="w-full sm:w-[60%] md:h-[99vh] md:w-[26%] h-full border border-[#d6d6d6] shadow-xl sm:rounded-3xl">
         <Outlet />
       </div>
-      <footer className="absolute  bottom-2 w-full flex justify-center items-center">
+      <footer className="fixed  bottom-2 w-full flex justify-center items-center">
         <Link to={"https://harsh-jha.vercel.app/"} className=" text-xs">
           Developed by Harsh
         </Link>
