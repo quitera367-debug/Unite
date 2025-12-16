@@ -75,41 +75,49 @@ export const AuthProvider = ({ children }) => {
     }
   };
   const handleGoogleLogin = () => {
-    // 1. Redirect user to your BACKEND Google route
-    // Ensure this URL matches your server's address
-    // If you are on Render, use: "https://your-api.onrender.com/api/users/google"
     window.open("https://unite-hmwc.onrender.com/api/users/google", "_self");
   };
-const checkUserLoggedIn = async () => {
-  try {
-    let token = searchParams.get("token");
+const API_URL = `${import.meta.env.VITE_API_BASE_URL}/users` || "http://localhost:5000/api/users";
 
-    if (!token) token = localStorage.getItem("token");
+  const checkUserLoggedIn = async () => {
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      let token = searchParams.get("token");
 
-    if (token) {
-      localStorage.setItem("token", token);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-      UserProfile()
-
-      if (searchParams.get("token")) {
-        navigate("/", { replace: true });
+      if (!token) {
+        token = localStorage.getItem("token");
       }
-    } else {
+
+      if (token) {
+        localStorage.setItem("token", token);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+        const { data } = await axios.get(`${API_URL}/me`);
+        setUser(data.user);
+
+        // 3. JS WAY: Clean URL (Remove ?token=... without reloading)
+        if (searchParams.get("token")) {
+           const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+           window.history.replaceState({ path: newUrl }, "", newUrl);
+        }
+      } else {
+        localStorage.removeItem("token");
+        delete axios.defaults.headers.common["Authorization"];
+        setUser(null);
+      }
+
+    } catch (error) {
+      console.error("Auth Check Failed:", error);
+      localStorage.removeItem("token");
       setUser(null);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("Auth check failed", error);
-    setUser(null);
-    localStorage.removeItem("token");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
 useEffect(() => {
   checkUserLoggedIn();
-}, [searchParams]);
+}, []);
   // profile
 
   const UserProfile = async () => {
