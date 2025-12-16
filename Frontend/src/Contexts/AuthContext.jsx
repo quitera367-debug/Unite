@@ -1,14 +1,11 @@
 import React, { createContext, use, useContext, useEffect, useState } from "react";
 import authService from "../Services/authService";
 import toast from "react-hot-toast";
-import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AuthApi = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const [registerData, setRegisterData] = useState();
   const [profileData, setProfileData] = useState();
   const [otpData, setOtpData] = useState();
