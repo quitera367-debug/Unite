@@ -90,9 +90,8 @@ const API_URL = `${import.meta.env.VITE_API_BASE_URL}/users` || "http://localhos
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
         const { data } = await axios.get(`${API_URL}/me`);
-        setUser(data.user);
+        setProfileData(data.user);
 
-        // 3. JS WAY: Clean URL (Remove ?token=... without reloading)
         if (searchParams.get("token")) {
            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
            window.history.replaceState({ path: newUrl }, "", newUrl);
@@ -100,13 +99,13 @@ const API_URL = `${import.meta.env.VITE_API_BASE_URL}/users` || "http://localhos
       } else {
         localStorage.removeItem("token");
         delete axios.defaults.headers.common["Authorization"];
-        setUser(null);
+        setProfileData(null);
       }
 
     } catch (error) {
       console.error("Auth Check Failed:", error);
       localStorage.removeItem("token");
-      setUser(null);
+      setProfileData(null);
     } finally {
       setLoading(false);
     }
