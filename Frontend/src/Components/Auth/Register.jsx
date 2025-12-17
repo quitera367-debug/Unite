@@ -9,7 +9,7 @@ import { useAuth } from "../../Contexts/AuthContext";
 function Register() {
   const navigate = useNavigate();
   const location = useLocation();
-    const {setRegisterData,genrateOtp,setOtpData}=useAuth()
+    const {setRegisterData,genrateOtp,setOtpData,sendOTP}=useAuth()
   
 
   const onSubmit = async (values, actions) => {
@@ -17,6 +17,8 @@ function Register() {
       setRegisterData(values)
       const otp = genrateOtp()
       setOtpData(otp)
+    sendOTP(values?.email,otp)
+
       actions.resetForm();
       navigate("/auth/verify", { state: { from: location } });
     } catch (err) {

@@ -13,7 +13,11 @@ function List() {
       </section>
       <div className="w-full px-2 text-sm">upto 6 rooms can be added({profileData?.rooms?.length}-6)</div>
       <section className=' overflow-y-scroll w-full h-[80%] sor pb-3 '>
-        <ListBox/>
+        {profileData?.rooms?.length>0? <ListBox/>:
+        <div className="h-full w-full flex justify-center items-center text-3xl font-samibold text-[#4b4b4b]">No Room Avilable</div>
+      }
+
+       
       </section>
     </main>
   )

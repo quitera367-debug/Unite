@@ -2,6 +2,7 @@ import React, { createContext, use, useContext, useEffect, useState } from "reac
 import authService from "../Services/authService";
 import toast from "react-hot-toast";
 import axios from "axios";
+import  emailjs  from "@emailjs/browser";
 
 const AuthApi = createContext();
 
@@ -14,9 +15,30 @@ export const AuthProvider = ({ children }) => {
   const genrateOtp = () => {
     return Math.floor(Math.random() * 8999) + 1000;
   };
-  const resendCode = () => {
-    console.log(otpData);
+  const resendCode = (e) => {
+    sendOTP(e,otpData)
   };
+
+      const sendOTP = async (e,i)=>{
+    const templateParams = {
+      email: e,
+      passcode: i,  // This matches {{otp_code}} in your template
+    };
+    try {
+      toast.success(`Otp has sent to ${e}`);
+
+      await emailjs.send(
+      'service_sh0yica',   // Replace with your Service ID
+      'template_et8t78a',  // Replace with your Template ID
+      templateParams,
+      'kh5gOkzF_a7DsE-go'    // Replace with your Public Key
+    )
+    } catch (err) {
+      console.log(err);
+      
+    }
+    
+  }
 
   const RegisterUser = async (e) => {
     try {
@@ -158,7 +180,8 @@ useEffect(() => {
         loading,
         setLoading,
         handleGoogleLogin,
-      }}
+        sendOTP,
+            }}
     >
       {children}
     </AuthApi.Provider>

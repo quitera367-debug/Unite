@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 function OtpVerification() {
   const nevigate = useNavigate();
   const location = useLocation();
-  const { registerData, otpData,resendCode,RegisterUser } = useAuth();
+  const { registerData, otpData,resendCode,RegisterUser,sendOTP } = useAuth();
   const [code,setCode]=useState()
 
   const from = location.state?.from?.pathname;
@@ -67,7 +67,7 @@ function OtpVerification() {
             onChange={handleChange}
             digit={4}
           />
-            <div onClick={()=>{resendCode()}} className="text-sm text-[#14213D]">
+            <div onClick={()=>{resendCode(registerData?.email)}} className="text-sm text-[#14213D]">
               Resend Code
             </div>
           </div>
