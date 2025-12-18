@@ -16,7 +16,6 @@ function EditProfile() {
     setData({
       profilePhoto: profileData?.profilePhoto || "",
       name: profileData?.name || "",
-
       file: null,
     });
   }, [profileData]);
@@ -41,9 +40,8 @@ function EditProfile() {
     if (data.file) {
       formData.append("profile", data.file); // file from input
     }
-    toast.success("Profile Edited");
-    await EditProfile(formData);
     navigate("/user");
+    await EditProfile(formData);
   };
 
   return (

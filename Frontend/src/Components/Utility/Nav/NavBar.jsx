@@ -8,7 +8,6 @@ function NavBar() {
   useEffect(() => {
     UserProfile();
   }, []);
-  console.log(profileData);
 
   return (
     profileData && (

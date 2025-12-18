@@ -6,8 +6,9 @@ import { CiLogout } from "react-icons/ci";
 
 function Profile() {
   const { LogoutUser,profileData ,UserProfile} = useAuth();
-  console.log(profileData?.profilePhoto);
   
+  const months=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  const createdDate= profileData?.createdAt.split("T")[0]
 
   
   return (
@@ -39,7 +40,7 @@ function Profile() {
         <article className="w-[98%] ">
           <h1 className="text-3xl font-semibold">{profileData?.name}</h1>
           <p className="">{profileData?.email}</p>
-          <p className="text-sm">Account created in {profileData?.createdAt}</p>
+          <p className="text-sm">Account created {months[createdDate?.split("-")[1]-1]+" "+createdDate?.split("-")[0]}</p>
         </article>
       </section>
     </main>
