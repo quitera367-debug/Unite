@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
-import Background from "../Components/Home/background";
+import Background from "../Components/Home/Background";
 import { FcGoogle } from "react-icons/fc";
 
 function Home() {
